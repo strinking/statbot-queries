@@ -31,5 +31,5 @@ JOIN (
     GROUP BY messages.user_id
 ) AS t1
     ON t0.user_id = t1.user_id
-ORDER BY total_mentions DESC;
+ORDER BY total_mentions DESC, total_messages DESC, percentage DESC;
 
