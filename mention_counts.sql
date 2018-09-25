@@ -14,7 +14,6 @@ FROM (
     GROUP BY user_id
 ) AS mentions
 JOIN users
-    ON users.user_id = mentions.user_id
+    ON users.real_user_id = mentions.user_id
 GROUP BY mentions.user_id, mentions.count, users.name
 ORDER BY mentions DESC;
-
