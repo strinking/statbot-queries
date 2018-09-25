@@ -2,14 +2,15 @@
 --- Only counts users with more than 400 messages.
 
 SELECT
-    users.user_id,
     users.name,
+    users.int_user_id,
+    users.real_user_id,
     users.is_bot,
-    100.0 * COUNT(messages.user_id) / total_messages.count AS percentage
+    100.0 * COUNT(messages.int_user_id) / total_messages.count AS percentage
 FROM (
     SELECT
         messages.message_id,
-        messages.user_id
+        messages.int_user_id
     FROM mentions
     JOIN messages
         ON messages.message_id = mentions.message_id
@@ -17,16 +18,15 @@ FROM (
     GROUP BY messages.message_id
 ) AS messages
 JOIN users
-    ON users.user_id = messages.user_id
+    ON users.int_user_id = messages.int_user_id
 JOIN (
     SELECT
-        user_id,
-        COUNT(user_id)
+        int_user_id,
+        COUNT(int_user_id)
     FROM messages
-    GROUP BY user_id
+    GROUP BY int_user_id
 ) AS total_messages
-    ON total_messages.user_id = messages.user_id
+    ON total_messages.int_user_id = messages.int_user_id
 WHERE total_messages.count > 400 -- Limit people
-GROUP BY users.user_id, total_messages.count
+GROUP BY users.int_user_id, users.real_user_id, total_messages.count
 ORDER BY percentage DESC;
-
