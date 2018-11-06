@@ -2,12 +2,10 @@
 -- See: http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
 SELECT ss.message_id,
        ((ss.upvotes + 1.9208) / (ss.upvotes + ss.downvotes) - 1.96 * SQRT(
-         (
-         ss.upvotes * ss.downvotes) / (
-         ss.upvotes + ss.downvotes) +
-                     0.9604) / (
-           ss.upvotes + ss.downvotes)) / (
-       1 + 3.8416 / (ss.upvotes + ss.downvotes)) AS score
+         (ss.upvotes * ss.downvotes) /
+         (ss.upvotes + ss.downvotes) + 0.9604) / (
+           ss.upvotes + ss.downvotes)
+       ) / (1 + 3.8416 / (ss.upvotes + ss.downvotes)) AS score
 FROM (
     SELECT
         reactions.message_id,
