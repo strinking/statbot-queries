@@ -2,11 +2,12 @@
 --- For context, it also lists how many messages total.
 
 SELECT
-    t0.*,
-    t1.count AS total_messages
+    mention_counts.*,
+    message_counts.count AS total_messages
 FROM (
     SELECT
-        users.user_id,
+        users.real_user_id,
+        users.int_user_id,
         users.name,
         mentions.count AS total_mentions
     FROM (
@@ -19,16 +20,15 @@ FROM (
     JOIN messages
         ON messages.message_id = mentions.message_id
     JOIN users
-        ON users.user_id = messages.user_id
-    GROUP BY users.user_id, messages.user_id
-) AS t0
+        ON users.int_user_id = messages.int_user_id
+    GROUP BY users.real_user_id, users.int_user_id
+) AS mention_counts
 JOIN (
     SELECT
         user_id,
         COUNT(user_id)
     FROM messages
     GROUP BY messages.user_id
-) AS t1
-    ON t0.user_id = t1.user_id
+) AS message_counts
+    mention_counts.int_user_id = message_counts.int_user_id
 ORDER BY total_mentions DESC, total_messages DESC;
-
