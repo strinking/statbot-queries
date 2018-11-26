@@ -3,6 +3,7 @@
 
 SELECT
     users.real_user_id,
+    users.name,
     COUNT(users.real_user_id) - 1 AS roles
 FROM users
 JOIN role_membership
@@ -14,4 +15,4 @@ WHERE role_membership.guild_id = 181866934353133570 -- Programming
     AND guild_membership.is_member
     AND users.real_user_id != 0
 GROUP BY users.real_user_id, users.int_user_id
-ORDER BY roles, users.real_user_id;
+ORDER BY roles, users.name, users.real_user_id;
