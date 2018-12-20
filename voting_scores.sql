@@ -53,7 +53,7 @@ FROM (
         GROUP BY message_id, int_user_id
     ) AS downvotes
         ON reactions.message_id = downvotes.message_id
-    WHERE message_id > 0 -- Restrict which messages are considered
+    WHERE reactions.message_id > 0 -- Restrict which messages are considered
     GROUP BY reactions.message_id
     ORDER BY upvotes DESC, downvotes ASC, message_id DESC
 ) AS ss
