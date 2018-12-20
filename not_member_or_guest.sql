@@ -27,7 +27,6 @@ WHERE guild_membership.guild_id = 181866934353133570 -- Programming
         FROM role_membership
         WHERE role_id IN (
             181869470736842752, -- Bot
-            207818285868122112, -- Guest
             205477488707502081, -- Member
             473981157122244619, -- Moderator
             290546513656938496, -- Admin
