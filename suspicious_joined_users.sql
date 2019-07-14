@@ -23,4 +23,5 @@ LEFT JOIN (
     AND guild_membership.guild_id = members.guild_id
 WHERE joined_at - snowflake_time(users.real_user_id) < '30 days'::interval
     AND guild_membership.joined_at > '2019-06-22 07:22:29'::timestamp -- CHANGE ME
+    AND guild_membership.is_member = true
 ORDER BY joined_at, created_at;
