@@ -1,5 +1,4 @@
--- Looks for suspicious new joins.
--- Specifically looks at people who made their account soon before joining,
+-- Looks for people who made their account soon before joining,
 -- and do not have the 'Member' role.
 
 -- Uses snowflake_time from id_to_snowflake.sql
@@ -22,6 +21,7 @@ LEFT JOIN (
     ON guild_membership.int_user_id = members.int_user_id
     AND guild_membership.guild_id = members.guild_id
 WHERE joined_at - snowflake_time(users.real_user_id) < '30 days'::interval
+    AND guild_membership.guild_id = 181866934353133570 -- Programming
     AND guild_membership.joined_at > '2019-06-22 07:22:29'::timestamp -- CHANGE ME
     AND guild_membership.is_member = true
 ORDER BY joined_at, created_at;
